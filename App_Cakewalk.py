@@ -1,5 +1,4 @@
 import tkinter
-import time
 import pyautogui
 import tkinter.ttk as ttk
 
@@ -7,9 +6,7 @@ import tkinter.ttk as ttk
 # グローバル変数たち
 
 # Pro-C2の「戻るボタン」の座標
-c2_close_x, c2_close_y = 1318, 281
-c2_close_x, c2_close_y = 2659, 332
-c2_close_x, c2_close_y = 1351, 310
+c2_close_x, c2_close_y = 722, 21
 
 threshold = -28  # スレッショルドの指定
 attack_time = 10  # ダミーのアタックタイム
@@ -312,8 +309,8 @@ tracks = {
 # -------------------------------------------------------------------------------
 
 
-def CubaseSelect():  # タスクバーからCubaseを選択する関数
-    pyautogui.hotkey("win", "2")
+def CakewalkSelect():  # タスクバーからCakewalkを選択する関数
+    pyautogui.hotkey("win", "7")
 
 
 def soundSpeedCalc():  # 指定された気温での音速を計算する関数
@@ -364,13 +361,12 @@ def releaseReleaseCalc(button_num, attack_time):  # リリースタイムを計�
 
 
 def ProC2(button_num):  # fabfilter ProC-2に値を書き込む関数
-    CubaseSelect()  # タスクバーからCubaseを選択
+    CakewalkSelect()  # タスクバーからCakewalkを選択
 
     # 現在の処理をターミナルに表示
     print(
         f"{tracks[len(tracks)-1 - button_num]['Num']}：{tracks[len(tracks)-1 - button_num]['Inst']}------"
     )
-
     # ----------------------------------------------------------------
     # 現在のマウス位置を記憶しておく
     home_x, home_y = pyautogui.position()
@@ -417,9 +413,9 @@ def place(i, addx, addy, y):  # ボタン配置をズラすための関数
 # -------------------------------------------------------------------------------
 # ウィンドウの作成
 root = tkinter.Tk()
-root.title("Cubase便利アイテム")  # ウィンドウのタイトル
+root.title("Cakewalk便利アイテム")  # ウィンドウのタイトル
 root.geometry("600x400")  # ウィンドウのサイズ
-root.geometry("+2500+2")  # ウィンドウの出現位置
+root.geometry("+2200+50")  # ウィンドウの出現位置
 
 # テキストボックス
 lbl1 = tkinter.Label(text="BPM")

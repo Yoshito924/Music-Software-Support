@@ -66,7 +66,7 @@ y = 609
 
 def FinaleSelect():
     # Finaleを選択
-    pyautogui.hotkey("win", "4")
+    pyautogui.hotkey("win", "3")
     # Finaleを全画面表示
     # pyautogui.hotkey("win", "up")
 
