@@ -1001,6 +1001,28 @@ ampGEQ_Reggae = tkinter.Button(
 )
 ampGEQ_Reggae.place(x=150, y=180)
 
+
+ampGEQ_DS = tkinter.Button(
+    root,
+    text=f"2GEQ Metal",
+    command=lambda: amp_axe_GEQ8(5, -2, -8.6, -3.1, 2.1, 3.3, 8.6, 7.6),
+)
+ampGEQ_DS.place(x=10, y=280)
+
+ampGEQ_Rock = tkinter.Button(
+    root,
+    text=f"2GEQ Rock",
+    command=lambda: amp_axe_GEQ8(-3.5, 4, 6, 0.2, -0.2, 2.3, -4, 0),
+)
+ampGEQ_Rock.place(x=80, y=280)
+
+ampGEQ_Reggae = tkinter.Button(
+    root,
+    text=f"2GEQ Reggae",
+    command=lambda: amp_axe_GEQ8(5, 4, 4.5, 2, -0.2, -5, -4, -8),
+)
+ampGEQ_Reggae.place(x=150, y=280)
+
 cab = tkinter.Button(root, text=f"Cab", command=cab_axe)
 cab.place(x=10, y=70)
 

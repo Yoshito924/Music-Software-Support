@@ -9,7 +9,7 @@ import tkinter.ttk as ttk
 # Pro-C2の「戻るボタン」の座標
 c2_close_x, c2_close_y = 1318, 281
 c2_close_x, c2_close_y = 2659, 332
-c2_close_x, c2_close_y = 1351, 310
+c2_close_x, c2_close_y = 1318, 276
 
 threshold = -28  # スレッショルドの指定
 attack_time = 10  # ダミーのアタックタイム

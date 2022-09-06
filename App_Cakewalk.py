@@ -310,7 +310,7 @@ tracks = {
 
 
 def CakewalkSelect():  # タスクバーからCakewalkを選択する関数
-    pyautogui.hotkey("win", "7")
+    pyautogui.hotkey("win", "5")
 
 
 def soundSpeedCalc():  # 指定された気温での音速を計算する関数
