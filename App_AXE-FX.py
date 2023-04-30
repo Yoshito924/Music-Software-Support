@@ -5,6 +5,7 @@ import pyperclip
 import time
 
 # ----------------------
+
 # 平均律の周波数
 Freq = [
     0,
@@ -155,11 +156,10 @@ setting_array = [
 # ----------------------
 
 # MIDIノートナンバーを周波数へ変換する関数
-
-
-def MIDINoteNumberToFreq(MIDINoteNumber):
-    frequency = 2 ** ((MIDINoteNumber - 69) / 12) * 440
-    return frequency
+def MIDINoteNumberToFreq(note_number: int, tuning: float = 0.0) -> float:
+    a4 = 440.0  # A4の周波数は440Hz
+    c0 = a4 * pow(2.0, -4.75)  # MIDIノートナンバー0の周波数を求める
+    return c0 * pow(2.0, (note_number + tuning) / 12.0)
 
 
 # AXE-EDITを起動する。
