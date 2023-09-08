@@ -1,10 +1,14 @@
 import tkinter
-import time
 import pyautogui
 import tkinter.ttk as ttk
 
 # -------------------------------------------------------------------------------
 # グローバル変数たち
+
+set_bpm = 120
+set_temperature = 15
+set_distance_difference = 0.2
+set_fastest = 10
 
 # Pro-C2の「戻るボタン」の座標
 c2_close_x, c2_close_y = 1318, 281
@@ -15,6 +19,7 @@ threshold = -28  # スレッショルドの指定
 attack_time = 10  # ダミーのアタックタイム
 
 one_minutes = 60000  # 1分の秒数(ms)
+one_second = 1000  # 1秒は1000ms
 
 # 指定BPMの主要な音符の音価(リリースタイムに使う)を計算する。
 note_1 = 4  # 全音符(ms)
@@ -26,10 +31,12 @@ note_32 = 1 / 8  # 32分音符(ms)
 note_8thDot = 3 / 4  # 付点8分音符
 note_16thDot = 3 / 8  # 付点16分音符
 
+# 座標
 addx = 0
 addy = 0
 y = 0
 x = 0
+
 # -------------------------------------------------------------------------------
 
 # コンプレッサーの情報を格納する配列
@@ -310,34 +317,38 @@ tracks = {
 }
 
 # -------------------------------------------------------------------------------
-
-
 def CubaseSelect():  # タスクバーからCubaseを選択する関数
     pyautogui.hotkey("win", "2")
 
 
 def soundSpeedCalc():  # 指定された気温での音速を計算する関数
-    temperature = int(input_temperature.get())
+    temperature = float(input_temperature.get())
     speed_of_sound = round((temperature * 0.6 + 331.5), 2)
-    print(f"気温は{temperature}℃\n音速は{speed_of_sound}m/sとして処理を行いました。")
+    custom_print(f"気温は{temperature}℃ として処理を行いました。\n音速は{speed_of_sound}m/sとして処理を行いました。")
     return speed_of_sound
 
 
-def attackTimeCalc(button_num):  # アタックタイムを計算する関数
+def attackTimeCalc(button_number):  # アタックタイムを計算する関数
     speed_of_sound = soundSpeedCalc()  # 指定された気温での音速を計算する
+    # 一番最速のアタックタイムの値を取得する
+    fastest = float(input_fastest.get())
+    # 前後の距離の差の値を取得する
+    distance_difference = float(input_distance_difference.get())
     # ----------------------------------------------------------------
-    count_num = len(tracks) - 1 - button_num
-    attack_time = round((((8.25 - (0.25 * count_num)) / speed_of_sound) * 1000), 2)
+    # 前後の距離の差進む時間(ms)を計算する。
+    forward_time = distance_difference / (speed_of_sound / one_second)
+    # アタックタイムを計算する
+    attack_time = round((fastest + (forward_time * (button_number - 1))), 2)
     return attack_time
 
 
 def releaseReleaseCalc(button_num, attack_time):  # リリースタイムを計算する関数
     # BPMの値を取得する
-    bpm = int(input_bpm.get())
+    bpm = float(input_bpm.get())
     # 指定BPMでの4分音符の音価(ms)を求める
-    common_beat_time = int(one_minutes) / int(bpm)
-
+    common_beat_time = float(one_minutes) / float(bpm)
     ReleaseType = combobox.get()
+
     if ReleaseType == "whole":
         r = note_1
     elif ReleaseType == "Half":
@@ -356,19 +367,27 @@ def releaseReleaseCalc(button_num, attack_time):  # リリースタイムを計�
         r = note_8thDot
     else:
         r = tracks[button_num]["ReleaseTime"]
-    print(ReleaseType, r)
+    custom_print(f"リリースタイムに使用する音符の種類：{ReleaseType},{r}")
     # リリースタイムの長さを計算
     track_release_time = round((common_beat_time * r), 2)
+    # 主要な音符の音価からアタックタイム引いた値をリリースタイムにする
     release_time = track_release_time - attack_time
     return release_time
 
 
+# カスタムprint関数の定義
+def custom_print(message):
+    output_text.insert(tkinter.END, message + "\n")
+    output_text.see(tkinter.END)
+
+
 def ProC2(button_num):  # fabfilter ProC-2に値を書き込む関数
-    CubaseSelect()  # タスクバーからCubaseを選択
+    # CubaseSelect()  # タスクバーからCubaseを選択
+    button_number = float(tracks[len(tracks) - 1 - button_num]["Num"])
 
     # 現在の処理をターミナルに表示
-    print(
-        f"{tracks[len(tracks)-1 - button_num]['Num']}：{tracks[len(tracks)-1 - button_num]['Inst']}------"
+    custom_print(
+        f"\n【{int(button_number)}】{tracks[len(tracks)-1 - button_num]['Inst']} ------------------"
     )
 
     # ----------------------------------------------------------------
@@ -376,7 +395,7 @@ def ProC2(button_num):  # fabfilter ProC-2に値を書き込む関数
     home_x, home_y = pyautogui.position()
 
     # ----------------------------------------------------------------
-    attack_time = attackTimeCalc(button_num)  # アタックタイムを計算する
+    attack_time = attackTimeCalc(button_number)  # アタックタイムを計算する
     release_time = releaseReleaseCalc(button_num, attack_time)  # リリースタイムを計算する
 
     # ----------------------------------------------------------------
@@ -388,16 +407,16 @@ def ProC2(button_num):  # fabfilter ProC-2に値を書き込む関数
     pyautogui.typewrite(f"{attack_time}")
     # エンターキーを押して確定。
     pyautogui.press("enter")
-    print(f"attack time: {attack_time}(ms)")
+    custom_print(f"Attack time: {attack_time}(ms)")
 
     # ----------------------------------------------------------------
     # fabfilter ProC-2のリリースタイムの座標をクリック。
     pyautogui.click(c2_close_x - 214, c2_close_y + 330, 2, 0.2, "left")
-    # アタックタイムを差し引いたリリースタイムを入力。
+    # （アタックタイムを引いた）リリースタイムを入力。
     pyautogui.typewrite(f"{release_time}")
     # エンターキーを押して確定。
     pyautogui.press("enter")
-    print(f"release time: {release_time}(ms)")
+    custom_print(f"Release time: {release_time}(ms)")
 
     # ----------------------------------------------------------------
     # fabfilter ProC-2のウインドウを閉じる
@@ -405,6 +424,7 @@ def ProC2(button_num):  # fabfilter ProC-2に値を書き込む関数
     pyautogui.moveTo(home_x, home_y)
 
 
+# -------------------------------------------------------------------------------
 def place(i, addx, addy, y):  # ボタン配置をズラすための関数
     addy += 1
     if i % 7 == 6:
@@ -414,28 +434,40 @@ def place(i, addx, addy, y):  # ボタン配置をズラすための関数
     return addx, addy, y
 
 
-# -------------------------------------------------------------------------------
 # ウィンドウの作成
 root = tkinter.Tk()
 root.title("Cubase便利アイテム")  # ウィンドウのタイトル
-root.geometry("600x400")  # ウィンドウのサイズ
-root.geometry("+2500+2")  # ウィンドウの出現位置
+root.geometry("600x450")  # ウィンドウのサイズ
+root.geometry("+2300+2")  # ウィンドウの出現位置
 
 # テキストボックス
 lbl1 = tkinter.Label(text="BPM")
 lbl1.place(x=10, y=0)
-input_bpm = tkinter.Entry(width=10)
-input_bpm.place(x=40, y=0)
-input_bpm.insert(tkinter.END, 128)
+input_bpm = tkinter.Entry(width=7)
+input_bpm.place(x=10, y=20)
+input_bpm.insert(tkinter.END, set_bpm)
 
 lbl2 = tkinter.Label(text="気温(℃)")
-lbl2.place(x=120, y=0)
-input_temperature = tkinter.Entry(width=6)
-input_temperature.place(x=170, y=0)
-input_temperature.insert(tkinter.END, 15)
+lbl2.place(x=65, y=0)
+input_temperature = tkinter.Entry(width=7)
+input_temperature.place(x=65, y=20)
+input_temperature.insert(tkinter.END, set_temperature)
 
 lbl3 = tkinter.Label(text="リリースタイム")
-lbl3.place(x=250, y=0)
+lbl3.place(x=260, y=0)
+
+lbl4 = tkinter.Label(text="前後差(m)")
+lbl4.place(x=120, y=0)
+input_distance_difference = tkinter.Entry(width=7)
+input_distance_difference.place(x=120, y=20)
+input_distance_difference.insert(tkinter.END, set_distance_difference)
+
+lbl5 = tkinter.Label(text="最速(ms)")
+lbl5.place(x=185, y=0)
+input_fastest = tkinter.Entry(width=7)
+input_fastest.place(x=185, y=20)
+input_fastest.insert(tkinter.END, set_fastest)
+
 # -----------------------------------------
 # ドロップダウンリスト
 module = (
@@ -467,6 +499,11 @@ for i in range(34):
         command=lambda i=i: ProC2(len(tracks) - i - 1),
     )
     button.place(x=10 + addx, y=50 + 30 * addy)
+
+
+# 1. Textウィジェットの追加
+output_text = tkinter.Text(root, width=50, height=10)
+output_text.place(x=10, y=280)
 
 # ウィンドウのループ処理
 root.mainloop()
