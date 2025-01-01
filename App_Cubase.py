@@ -1,14 +1,24 @@
 import tkinter
 import pyautogui
 import tkinter.ttk as ttk
+import json
 
 # -------------------------------------------------------------------------------
-# グローバル変数たち
+# JSONファイルから設定を読み込む
+def load_settings():
+    with open('cubase.json', 'r', encoding='utf-8') as f:
+        data = json.load(f)
+        return data['settings'], data['tracks']
 
-set_bpm = 120
-set_temperature = 15
-set_distance_difference = 0.2
-set_fastest = 10
+def save_settings(settings):
+    with open('cubase.json', 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    data['settings'] = settings
+    with open('cubase.json', 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=4)
+
+# 設定とトラックデータを読み込む
+settings, tracks = load_settings()
 
 # Pro-C2の「戻るボタン」の座標
 c2_close_x, c2_close_y = 1318, 281
@@ -39,282 +49,10 @@ x = 0
 
 # -------------------------------------------------------------------------------
 
-# コンプレッサーの情報を格納する配列
-# 0トラック番号,1トラック名,2スレッショルド,3レシオ,4アタックタイム,5リリースタイム,6ゲイン
-tracks = {
-    0: {
-        "Num": 34,
-        "Inst": "Vocal 1",
-        "Threshold": threshold,
-        "Ratio": "7.5",
-        "ReleaseTime": note_8,
-        "Gain": "-5",
-    },
-    1: {
-        "Num": 33,
-        "Inst": "Solo 1",
-        "Threshold": threshold,
-        "Ratio": "7",
-        "ReleaseTime": note_16,
-        "Gain": "-5",
-    },
-    2: {
-        "Num": 32,
-        "Inst": "Kick",
-        "Threshold": threshold,
-        "Ratio": "6",
-        "ReleaseTime": note_8,
-        "Gain": "-5",
-    },
-    3: {
-        "Num": 31,
-        "Inst": "Kick sub",
-        "Threshold": threshold,
-        "Ratio": "5",
-        "ReleaseTime": note_4,
-        "Gain": "-5",
-    },
-    4: {
-        "Num": 30,
-        "Inst": "Snare 1",
-        "Threshold": threshold,
-        "Ratio": "7",
-        "ReleaseTime": note_8,
-        "Gain": "-5",
-    },
-    5: {
-        "Num": 29,
-        "Inst": "Clap",
-        "Threshold": threshold,
-        "Ratio": "7",
-        "ReleaseTime": note_16,
-        "Gain": "-5",
-    },
-    6: {
-        "Num": 28,
-        "Inst": "Solo 2",
-        "Threshold": threshold,
-        "Ratio": "9",
-        "ReleaseTime": note_4,
-        "Gain": "-10",
-    },
-    7: {
-        "Num": 27,
-        "Inst": "Hamori",
-        "Threshold": threshold,
-        "Ratio": "10",
-        "ReleaseTime": note_4,
-        "Gain": "-10",
-    },
-    8: {
-        "Num": 26,
-        "Inst": "Snare bottom",
-        "Threshold": threshold,
-        "Ratio": "8",
-        "ReleaseTime": note_4,
-        "Gain": "-5",
-    },
-    9: {
-        "Num": 25,
-        "Inst": "hihat Sample",
-        "Threshold": threshold,
-        "Ratio": "5.5",
-        "ReleaseTime": note_8,
-        "Gain": "0",
-    },
-    10: {
-        "Num": 24,
-        "Inst": "hihat",
-        "Threshold": threshold,
-        "Ratio": "4.5",
-        "ReleaseTime": note_16,
-        "Gain": "0",
-    },
-    11: {
-        "Num": 23,
-        "Inst": "Ride",
-        "Threshold": threshold,
-        "Ratio": "6.5",
-        "ReleaseTime": note_4,
-        "Gain": "0",
-    },
-    12: {
-        "Num": 22,
-        "Inst": "F-Gt",
-        "Threshold": threshold,
-        "Ratio": "5.5",
-        "ReleaseTime": note_4,
-        "Gain": "-10",
-    },
-    13: {
-        "Num": 21,
-        "Inst": "B-Gt clean",
-        "Threshold": threshold,
-        "Ratio": "5.5",
-        "ReleaseTime": note_4,
-        "Gain": "-10",
-    },
-    14: {
-        "Num": 20,
-        "Inst": "F-Instrument",
-        "Threshold": threshold,
-        "Ratio": "6.5",
-        "ReleaseTime": note_8,
-        "Gain": "-10",
-    },
-    15: {
-        "Num": 19,
-        "Inst": "M-Instrument",
-        "Threshold": threshold,
-        "Ratio": "5.5",
-        "ReleaseTime": note_16,
-        "Gain": "-10",
-    },
-    16: {
-        "Num": 18,
-        "Inst": "B-Instrument",
-        "Threshold": threshold,
-        "Ratio": "4.5",
-        "ReleaseTime": note_4,
-        "Gain": "-10",
-    },
-    17: {
-        "Num": 17,
-        "Inst": "Bass solo",
-        "Threshold": threshold,
-        "Ratio": "7.5",
-        "ReleaseTime": note_4,
-        "Gain": "-10",
-    },
-    18: {
-        "Num": 16,
-        "Inst": "Bass Bus",
-        "Threshold": threshold,
-        "Ratio": "5.5",
-        "ReleaseTime": note_4,
-        "Gain": "-10",
-    },
-    19: {
-        "Num": 15,
-        "Inst": "Synth Bass",
-        "Threshold": threshold,
-        "Ratio": "4",
-        "ReleaseTime": note_8,
-        "Gain": "-10",
-    },
-    20: {
-        "Num": 14,
-        "Inst": "Percussion",
-        "Threshold": threshold,
-        "Ratio": "5",
-        "ReleaseTime": note_16,
-        "Gain": "0",
-    },
-    21: {
-        "Num": 13,
-        "Inst": "Cymbal",
-        "Threshold": threshold,
-        "Ratio": "4",
-        "ReleaseTime": note_4,
-        "Gain": "-5",
-    },
-    22: {
-        "Num": 12,
-        "Inst": "Tom 1",
-        "Threshold": threshold,
-        "Ratio": "5",
-        "ReleaseTime": note_4,
-        "Gain": "0",
-    },
-    23: {
-        "Num": 11,
-        "Inst": "Tom 2",
-        "Threshold": threshold,
-        "Ratio": "5",
-        "ReleaseTime": note_4,
-        "Gain": "0",
-    },
-    24: {
-        "Num": 10,
-        "Inst": "Floor Tom",
-        "Threshold": threshold,
-        "Ratio": "4",
-        "ReleaseTime": note_8,
-        "Gain": "0",
-    },
-    25: {
-        "Num": 9,
-        "Inst": "Piano/E Piano",
-        "Threshold": threshold,
-        "Ratio": "3.2",
-        "ReleaseTime": note_16,
-        "Gain": "-5",
-    },
-    26: {
-        "Num": 8,
-        "Inst": "Over Head",
-        "Threshold": threshold,
-        "Ratio": "3",
-        "ReleaseTime": note_4,
-        "Gain": "0",
-    },
-    27: {
-        "Num": 7,
-        "Inst": "Mono",
-        "Threshold": threshold,
-        "Ratio": "4.5",
-        "ReleaseTime": note_4,
-        "Gain": "0",
-    },
-    28: {
-        "Num": 6,
-        "Inst": "Brass",
-        "Threshold": threshold,
-        "Ratio": "2.5",
-        "ReleaseTime": note_4,
-        "Gain": "-10",
-    },
-    29: {
-        "Num": 5,
-        "Inst": "Comp",
-        "Threshold": threshold,
-        "Ratio": "5.5",
-        "ReleaseTime": note_8,
-        "Gain": "0",
-    },
-    30: {
-        "Num": 4,
-        "Inst": "Room",
-        "Threshold": threshold,
-        "Ratio": "1.5",
-        "ReleaseTime": note_16,
-        "Gain": "0",
-    },
-    31: {
-        "Num": 3,
-        "Inst": "Strings",
-        "Threshold": threshold,
-        "Ratio": "1.5",
-        "ReleaseTime": note_4,
-        "Gain": "-10",
-    },
-    32: {
-        "Num": 2,
-        "Inst": "Amb",
-        "Threshold": threshold,
-        "Ratio": "2",
-        "ReleaseTime": note_4,
-        "Gain": "0",
-    },
-    33: {
-        "Num": 1,
-        "Inst": "Pad",
-        "Threshold": threshold,
-        "Ratio": "1.2",
-        "ReleaseTime": note_4,
-        "Gain": "-10",
-    },
-}
+# 読み込んだデータにthresholdを設定
+threshold = -28  # スレッショルドの指定
+for track in tracks.values():
+    track["Threshold"] = threshold
 
 # -------------------------------------------------------------------------------
 def CubaseSelect():  # タスクバーからCubaseを選択する関数
@@ -324,6 +62,9 @@ def CubaseSelect():  # タスクバーからCubaseを選択する関数
 def soundSpeedCalc():  # 指定された気温での音速を計算する関数
     temperature = float(input_temperature.get())
     speed_of_sound = round((temperature * 0.6 + 331.5), 2)
+    # 設定を保存
+    settings['temperature'] = temperature
+    save_settings(settings)
     custom_print(f"気温は{temperature}℃ として処理を行いました。\n音速は{speed_of_sound}m/sとして処理を行いました。")
     return speed_of_sound
 
@@ -334,6 +75,10 @@ def attackTimeCalc(button_number):  # アタックタイムを計算する関数
     fastest = float(input_fastest.get())
     # 前後の距離の差の値を取得する
     distance_difference = float(input_distance_difference.get())
+    # 設定を保存
+    settings['fastest'] = fastest
+    settings['distance_difference'] = distance_difference
+    save_settings(settings)
     # ----------------------------------------------------------------
     # 前後の距離の差進む時間(ms)を計算する。
     forward_time = distance_difference / (speed_of_sound / one_second)
@@ -345,6 +90,9 @@ def attackTimeCalc(button_number):  # アタックタイムを計算する関数
 def releaseReleaseCalc(button_num, attack_time):  # リリースタイムを計算する関数
     # BPMの値を取得する
     bpm = float(input_bpm.get())
+    # 設定を保存
+    settings['bpm'] = bpm
+    save_settings(settings)
     # 指定BPMでの4分音符の音価(ms)を求める
     common_beat_time = float(one_minutes) / float(bpm)
     ReleaseType = combobox.get()
@@ -445,13 +193,13 @@ lbl1 = tkinter.Label(text="BPM")
 lbl1.place(x=10, y=0)
 input_bpm = tkinter.Entry(width=7)
 input_bpm.place(x=10, y=20)
-input_bpm.insert(tkinter.END, set_bpm)
+input_bpm.insert(tkinter.END, settings['bpm'])
 
 lbl2 = tkinter.Label(text="気温(℃)")
 lbl2.place(x=65, y=0)
 input_temperature = tkinter.Entry(width=7)
 input_temperature.place(x=65, y=20)
-input_temperature.insert(tkinter.END, set_temperature)
+input_temperature.insert(tkinter.END, settings['temperature'])
 
 lbl3 = tkinter.Label(text="リリースタイム")
 lbl3.place(x=260, y=0)
@@ -460,13 +208,13 @@ lbl4 = tkinter.Label(text="前後差(m)")
 lbl4.place(x=120, y=0)
 input_distance_difference = tkinter.Entry(width=7)
 input_distance_difference.place(x=120, y=20)
-input_distance_difference.insert(tkinter.END, set_distance_difference)
+input_distance_difference.insert(tkinter.END, settings['distance_difference'])
 
 lbl5 = tkinter.Label(text="最速(ms)")
 lbl5.place(x=185, y=0)
 input_fastest = tkinter.Entry(width=7)
 input_fastest.place(x=185, y=20)
-input_fastest.insert(tkinter.END, set_fastest)
+input_fastest.insert(tkinter.END, settings['fastest'])
 
 # -----------------------------------------
 # ドロップダウンリスト

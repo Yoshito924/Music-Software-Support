@@ -1,0 +1,282 @@
+{
+    "settings": {
+        "bpm": 120,
+        "temperature": 15,
+        "distance_difference": 0.2,
+        "fastest": 10
+    },
+    "tracks": {
+        "0": {
+            "Num": 34,
+            "Inst": "Vocal 1",
+            "Threshold": -28,
+            "Ratio": "7.5",
+            "ReleaseTime": 0.5,
+            "Gain": "-5"
+        },
+        "1": {
+            "Num": 33,
+            "Inst": "Solo 1",
+            "Threshold": -28,
+            "Ratio": "7",
+            "ReleaseTime": 0.25,
+            "Gain": "-5"
+        },
+        "2": {
+            "Num": 32,
+            "Inst": "Kick",
+            "Threshold": -28,
+            "Ratio": "6",
+            "ReleaseTime": 0.5,
+            "Gain": "-5"
+        },
+        "3": {
+            "Num": 31,
+            "Inst": "Kick sub",
+            "Threshold": -28,
+            "Ratio": "5",
+            "ReleaseTime": 1,
+            "Gain": "-5"
+        },
+        "4": {
+            "Num": 30,
+            "Inst": "Snare 1",
+            "Threshold": -28,
+            "Ratio": "7",
+            "ReleaseTime": 0.5,
+            "Gain": "-5"
+        },
+        "5": {
+            "Num": 29,
+            "Inst": "Clap",
+            "Threshold": -28,
+            "Ratio": "7",
+            "ReleaseTime": 0.25,
+            "Gain": "-5"
+        },
+        "6": {
+            "Num": 28,
+            "Inst": "Solo 2",
+            "Threshold": -28,
+            "Ratio": "9",
+            "ReleaseTime": 1,
+            "Gain": "-10"
+        },
+        "7": {
+            "Num": 27,
+            "Inst": "Hamori",
+            "Threshold": -28,
+            "Ratio": "10",
+            "ReleaseTime": 1,
+            "Gain": "-10"
+        },
+        "8": {
+            "Num": 26,
+            "Inst": "Snare bottom",
+            "Threshold": -28,
+            "Ratio": "8",
+            "ReleaseTime": 1,
+            "Gain": "-5"
+        },
+        "9": {
+            "Num": 25,
+            "Inst": "hihat Sample",
+            "Threshold": -28,
+            "Ratio": "5.5",
+            "ReleaseTime": 0.5,
+            "Gain": "0"
+        },
+        "10": {
+            "Num": 24,
+            "Inst": "hihat",
+            "Threshold": -28,
+            "Ratio": "4.5",
+            "ReleaseTime": 0.25,
+            "Gain": "0"
+        },
+        "11": {
+            "Num": 23,
+            "Inst": "Ride",
+            "Threshold": -28,
+            "Ratio": "6.5",
+            "ReleaseTime": 1,
+            "Gain": "0"
+        },
+        "12": {
+            "Num": 22,
+            "Inst": "F-Gt",
+            "Threshold": -28,
+            "Ratio": "5.5",
+            "ReleaseTime": 1,
+            "Gain": "-10"
+        },
+        "13": {
+            "Num": 21,
+            "Inst": "B-Gt clean",
+            "Threshold": -28,
+            "Ratio": "5.5",
+            "ReleaseTime": 1,
+            "Gain": "-10"
+        },
+        "14": {
+            "Num": 20,
+            "Inst": "F-Instrument",
+            "Threshold": -28,
+            "Ratio": "6.5",
+            "ReleaseTime": 0.5,
+            "Gain": "-10"
+        },
+        "15": {
+            "Num": 19,
+            "Inst": "M-Instrument",
+            "Threshold": -28,
+            "Ratio": "5.5",
+            "ReleaseTime": 0.25,
+            "Gain": "-10"
+        },
+        "16": {
+            "Num": 18,
+            "Inst": "B-Instrument",
+            "Threshold": -28,
+            "Ratio": "4.5",
+            "ReleaseTime": 1,
+            "Gain": "-10"
+        },
+        "17": {
+            "Num": 17,
+            "Inst": "Bass solo",
+            "Threshold": -28,
+            "Ratio": "7.5",
+            "ReleaseTime": 1,
+            "Gain": "-10"
+        },
+        "18": {
+            "Num": 16,
+            "Inst": "Bass Bus",
+            "Threshold": -28,
+            "Ratio": "5.5",
+            "ReleaseTime": 1,
+            "Gain": "-10"
+        },
+        "19": {
+            "Num": 15,
+            "Inst": "Synth Bass",
+            "Threshold": -28,
+            "Ratio": "4",
+            "ReleaseTime": 0.5,
+            "Gain": "-10"
+        },
+        "20": {
+            "Num": 14,
+            "Inst": "Percussion",
+            "Threshold": -28,
+            "Ratio": "5",
+            "ReleaseTime": 0.25,
+            "Gain": "0"
+        },
+        "21": {
+            "Num": 13,
+            "Inst": "Cymbal",
+            "Threshold": -28,
+            "Ratio": "4",
+            "ReleaseTime": 1,
+            "Gain": "-5"
+        },
+        "22": {
+            "Num": 12,
+            "Inst": "Tom 1",
+            "Threshold": -28,
+            "Ratio": "5",
+            "ReleaseTime": 1,
+            "Gain": "0"
+        },
+        "23": {
+            "Num": 11,
+            "Inst": "Tom 2",
+            "Threshold": -28,
+            "Ratio": "5",
+            "ReleaseTime": 1,
+            "Gain": "0"
+        },
+        "24": {
+            "Num": 10,
+            "Inst": "Floor Tom",
+            "Threshold": -28,
+            "Ratio": "4",
+            "ReleaseTime": 0.5,
+            "Gain": "0"
+        },
+        "25": {
+            "Num": 9,
+            "Inst": "Piano/E Piano",
+            "Threshold": -28,
+            "Ratio": "3.2",
+            "ReleaseTime": 0.25,
+            "Gain": "-5"
+        },
+        "26": {
+            "Num": 8,
+            "Inst": "Over Head",
+            "Threshold": -28,
+            "Ratio": "3",
+            "ReleaseTime": 1,
+            "Gain": "0"
+        },
+        "27": {
+            "Num": 7,
+            "Inst": "Mono",
+            "Threshold": -28,
+            "Ratio": "4.5",
+            "ReleaseTime": 1,
+            "Gain": "0"
+        },
+        "28": {
+            "Num": 6,
+            "Inst": "Brass",
+            "Threshold": -28,
+            "Ratio": "2.5",
+            "ReleaseTime": 1,
+            "Gain": "-10"
+        },
+        "29": {
+            "Num": 5,
+            "Inst": "Comp",
+            "Threshold": -28,
+            "Ratio": "5.5",
+            "ReleaseTime": 0.5,
+            "Gain": "0"
+        },
+        "30": {
+            "Num": 4,
+            "Inst": "Room",
+            "Threshold": -28,
+            "Ratio": "1.5",
+            "ReleaseTime": 0.25,
+            "Gain": "0"
+        },
+        "31": {
+            "Num": 3,
+            "Inst": "Strings",
+            "Threshold": -28,
+            "Ratio": "1.5",
+            "ReleaseTime": 1,
+            "Gain": "-10"
+        },
+        "32": {
+            "Num": 2,
+            "Inst": "Amb",
+            "Threshold": -28,
+            "Ratio": "2",
+            "ReleaseTime": 1,
+            "Gain": "0"
+        },
+        "33": {
+            "Num": 1,
+            "Inst": "Pad",
+            "Threshold": -28,
+            "Ratio": "1.2",
+            "ReleaseTime": 1,
+            "Gain": "-10"
+        }
+    }
+}
