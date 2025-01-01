@@ -3,7 +3,11 @@
         "bpm": 120,
         "temperature": 15,
         "distance_difference": 0.2,
-        "fastest": 10
+        "fastest": 10,
+        "window_width": 600,
+        "window_height": 492,
+        "window_x": 2300,
+        "window_y": 2
     },
     "tracks": {
         "0": {
