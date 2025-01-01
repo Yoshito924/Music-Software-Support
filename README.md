@@ -14,7 +14,7 @@ Axe-FX用のGUIコントロールツールです。マウスの自動操作を�
 
 ```bash
 # リポジトリのクローン
-git clone https://github.com/yourusername/axe-fx-control.git
+git clone https://github.com/kimuyoshi/axe-fx-control.git
 cd axe-fx-control
 
 # 依存パッケージのインストール
